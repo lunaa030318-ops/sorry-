@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>I’m Sorry 💌</title>
+<style>
+:root{--bg1:#ffe3ec;--bg2:#fff4e6;--ink:#4a3340;--card:#ffffffcc;--pink:#ff6f9c;--paper:#fffaf0;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#3a2230;--bg2:#2a2030;--ink:#ffe9f0;--card:#ffffff18;--paper:#fff4e0}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:"Quicksand","Trebuchet MS",system-ui,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2));overflow-x:hidden}
+.scene{display:none;min-height:100vh;padding:20px 14px;flex-direction:column;align-items:center;justify-content:center;text-align:center;animation:fade .7s}
+.scene.on{display:flex}
+@keyframes fade{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+h1{font-family:"Georgia",serif;font-size:clamp(24px,6vw,38px);margin:8px 0}
+p.sub{margin:4px 0 16px;opacity:.8}
+/* envelope */
+.env{width:min(300px,80vw);height:200px;position:relative;cursor:pointer;animation:bob 2s ease-in-out infinite;margin-top:20px}
+@keyframes bob{50%{transform:translateY(-10px) rotate(-1.5deg)}}
+.env .back{position:absolute;inset:0;background:#ffb3c8;border-radius:10px;box-shadow:0 12px 30px #0003}
+.env .paper{position:absolute;left:8%;right:8%;top:8%;height:80%;background:var(--paper);color:#4a3340;border-radius:8px;padding:14px;font-size:15px;transition:transform 1s;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif}
+.env .front{position:absolute;inset:0;border-radius:10px;background:linear-gradient(135deg,transparent 50%,#ff8fb0 50%) left/50% 100% no-repeat,linear-gradient(225deg,transparent 50%,#ff8fb0 50%) right/50% 100% no-repeat;pointer-events:none}
+.env .flap{position:absolute;left:0;right:0;top:0;height:60%;background:#ff7aa2;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .6s}
+.env .seal{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);font-size:34px;transition:opacity .3s}
+.env.open{animation:none}
+.env.open .flap{transform:rotateX(180deg)}
+.env.open .seal{opacity:0}
+.env.open .paper{transform:translateY(-70px);z-index:3}
+/* choices */
+.row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:flex-end;width:100%;max-width:640px}
+.opt{background:var(--card);backdrop-filter:blur(6px);border-radius:22px;padding:12px;width:min(290px,44%);min-width:150px;box-shadow:0 8px 24px #0002;display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .4s}
+.opt svg{width:100%;max-width:200px;height:auto}
+button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:12px 18px;cursor:pointer;color:#fff;transition:transform .3s,font-size .3s}
+.yes{background:var(--pink);box-shadow:0 6px 16px #ff6f9c77}
+.no{background:#8c7a99}
+button:hover{transform:scale(1.05)}
+#bubble{min-height:56px;margin-top:16px;font-size:18px;font-weight:700;max-width:520px}
+.hop{animation:hop 1s ease-in-out infinite}
+@keyframes hop{50%{transform:translateY(-10px)}}
+.shake{animation:shake .5s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.tear{animation:tear 1s infinite;fill:#5bb8ff}
+.tear.b{animation-delay:.4s}
+@keyframes tear{0%{transform:translateY(0);opacity:1}100%{transform:translateY(34px);opacity:0}}
+.steam{animation:steam 1s infinite;fill:#fff;opacity:0}
+@keyframes steam{0%{transform:translateY(8px);opacity:.9}100%{transform:translateY(-18px) scale(1.6);opacity:0}}
+.ear{transform-box:fill-box;transform-origin:bottom center;transition:transform .5s}
+.droop .ear.l{transform:rotate(-55deg)}.droop .ear.r{transform:rotate(55deg)}
+/* ride scene */
+#ride svg{width:min(560px,100%);height:auto;border-radius:24px;box-shadow:0 10px 30px #0003}
+.wheel{transform-box:fill-box;transform-origin:center;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bike{animation:ride 0.6s ease-in-out infinite alternate}
+@keyframes ride{to{transform:translateY(-4px)}}
+.road{animation:road .6s linear infinite}
+@keyframes road{to{stroke-dashoffset:-60}}
+.cloud{animation:cloud 14s linear infinite}
+@keyframes cloud{from{transform:translateX(420px)}to{transform:translateX(-160px)}}
+.heart{position:fixed;bottom:-30px;pointer-events:none;animation:up 5s linear forwards;z-index:9}
+@keyframes up{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+
+.bike2{animation:bump .45s ease-in-out infinite alternate;transform-origin:225px 240px}
+@keyframes bump{from{transform:translateY(0) rotate(0)}to{transform:translateY(-3px) rotate(-.6deg)}}
+.scroll{animation:scr linear infinite}
+@keyframes scr{to{transform:translateX(-480px)}}
+.gl{animation:sw .9s ease-in-out infinite alternate}
+@keyframes sw{from{transform:rotate(-10deg)}to{transform:rotate(14deg)}}
+.scarf{animation:fl .35s ease-in-out infinite alternate}
+@keyframes fl{from{transform:skewY(-8deg) scaleX(1)}to{transform:skewY(10deg) scaleX(.85)}}
+.eye{transform-box:fill-box;transform-origin:center;animation:bl 4s infinite}
+@keyframes bl{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.puff{animation:pf 1s linear infinite;opacity:0}
+@keyframes pf{from{transform:translate(0,0) scale(.5);opacity:.8}to{transform:translate(-40px,-12px) scale(1.8);opacity:0}}
+.fh{animation:fh 2.4s ease-out infinite;opacity:0}
+@keyframes fh{from{transform:translate(0,0);opacity:1}to{transform:translate(-26px,-50px);opacity:0}}
+.sun{animation:spin 20s linear infinite}
+#ride svg{width:min(640px,100%)}
+</style>
+</head>
+<body>
+
+<section class="scene on" id="s1">
+  <h1>A little letter for you 💌</h1>
+  <p class="sub">Tap the letter to open it</p>
+  <div class="env" id="env">
+    <div class="back"></div>
+    <div class="paper" id="paper">Ruchii, I’m so sorry… 🥺</div>
+    <div class="front"></div><div class="flap"></div><div class="seal">💗</div>
+  </div>
+</section>
+
+<section class="scene" id="s2">
+  <h1>Will you accept my sorry? 🐰</h1>
+  <div class="row">
+    <div class="opt" id="optYes"><div id="rYes" class="hop"></div><button class="yes" id="yes">Accept Sorry 💖</button></div>
+    <div class="opt" id="optNo"><div id="rNo"></div><button class="no" id="no">Not Accepted</button></div>
+  </div>
+  <div id="bubble">I’m really, truly sorry. Please forgive me, I’ll never repeat it again, Ruchii 🥹</div>
+</section>
+
+<section class="scene" id="ride">
+  <h1>Yay! You forgave me 🥰</h1>
+  <p class="sub">Let’s go for a bike ride, Ruchii 🚲</p>
+  <svg viewBox="0 0 480 300" aria-label="Two teddy bears riding a bike through a sunny meadow">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3ff"/><stop offset="1" stop-color="#ffe9f1"/></linearGradient></defs>
+<rect width="480" height="300" fill="url(#sky)"/>
+<g style="transform-origin:410px 52px" class="sun"><circle cx="410" cy="52" r="26" fill="#ffd95e"/><circle cx="410" cy="52" r="34" fill="none" stroke="#ffd95e" stroke-width="3" stroke-dasharray="4 8"/></g>
+<g class="cloud" style="animation-duration:22s"><ellipse cx="0" cy="50" rx="36" ry="13" fill="#fff"/><ellipse cx="22" cy="41" rx="22" ry="14" fill="#fff"/></g>
+<g class="cloud" style="animation-duration:30s;animation-delay:-12s"><ellipse cx="0" cy="88" rx="28" ry="10" fill="#fff" opacity=".9"/><ellipse cx="16" cy="81" rx="16" ry="10" fill="#fff" opacity=".9"/></g>
+<g class="cloud" style="animation-duration:16s;animation-delay:-5s"><path d="M0 70q6-7 12 0q6-7 12 0" stroke="#4a3340" stroke-width="2" fill="none" stroke-linecap="round"/></g>
+<path d="M0 215Q70 150 150 205T300 190T480 200V260H0Z" fill="#b7e8b0"/>
+<rect y="228" width="480" height="42" fill="#8fdc97"/>
+<g id="trees" class="scroll" style="animation-duration:9s"></g>
+<rect y="255" width="480" height="15" fill="#6fcf7e"/>
+<g id="fl" class="scroll" style="animation-duration:3s"></g>
+<rect y="268" width="480" height="32" fill="#8a8394"/>
+<line x1="0" y1="284" x2="480" y2="284" stroke="#fff" stroke-width="4" stroke-dasharray="30 30" class="road"/>
+<ellipse cx="225" cy="277" rx="150" ry="6" fill="#0003"/>
+<g class="puff"><circle cx="84" cy="266" r="5" fill="#fff"/></g><g class="puff" style="animation-delay:.3s"><circle cx="84" cy="266" r="4" fill="#fff"/></g><g class="puff" style="animation-delay:.6s"><circle cx="84" cy="266" r="6" fill="#fff"/></g>
+<g class="bike2">
+ <g transform="translate(120 236)"><g class="wheel"><circle r="38" fill="none" stroke="#2f2f3f" stroke-width="6"/><circle r="33" fill="none" stroke="#cfd3e0" stroke-width="1.5"/><path d="M-33 0H33M0-33V33M-23-23L23 23M23-23L-23 23" stroke="#9aa0b4" stroke-width="1.2"/></g><circle r="5" fill="#666"/></g>
+ <g transform="translate(330 236)"><g class="wheel"><circle r="38" fill="none" stroke="#2f2f3f" stroke-width="6"/><circle r="33" fill="none" stroke="#cfd3e0" stroke-width="1.5"/><path d="M-33 0H33M0-33V33M-23-23L23 23M23-23L-23 23" stroke="#9aa0b4" stroke-width="1.2"/></g><circle r="5" fill="#666"/></g>
+ <path d="M120 236L135 172H175M120 236L185 170" fill="none" stroke="#9aa0b4" stroke-width="3"/>
+ <path d="M205 222L120 230M205 250L120 242" stroke="#555" stroke-width="1.5"/>
+ <path d="M120 236L205 236L185 170ZM185 170L300 168M205 236L304 190M300 168L308 190L330 236" fill="none" stroke="#ff7aa2" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+ <path d="M182 168V154M300 168L298 150L318 148" fill="none" stroke="#444" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+ <ellipse cx="180" cy="152" rx="17" ry="5" fill="#3a3347"/>
+ <rect x="318" y="158" width="30" height="20" rx="5" fill="#ffd9a0" stroke="#d9a35e" stroke-width="2"/>
+ <circle cx="326" cy="154" r="5" fill="#ff6f9c"/><circle cx="336" cy="151" r="5" fill="#fff"/><circle cx="344" cy="155" r="5" fill="#ffd95e"/><path d="M326 154v5M336 151v8M344 155v4" stroke="#3a9a4a" stroke-width="2"/>
+ <circle cx="307" cy="171" r="4" fill="#fff6a0"/>
+ <g id="crank"><circle r="13" fill="none" stroke="#888" stroke-width="3" stroke-dasharray="3 2"/><path d="M-20 0H20" stroke="#666" stroke-width="4" stroke-linecap="round"/></g>
+ <path id="l2" fill="none" stroke="#8a5a36" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+ <ellipse id="f2" rx="8" ry="5" fill="#6b4a8a"/>
+ <!-- girl -->
+ <g class="gl" style="transform-origin:140px 170px"><path d="M140 170L150 202" stroke="#e6b98a" stroke-width="11" stroke-linecap="round"/><ellipse cx="154" cy="205" rx="9" ry="5.5" fill="#ff6f9c"/></g>
+ <g class="gl" style="transform-origin:140px 170px;animation-delay:-.4s"><path d="M132 170L142 202" stroke="#d6a77a" stroke-width="11" stroke-linecap="round"/><ellipse cx="146" cy="205" rx="9" ry="5.5" fill="#ff4f86"/></g>
+ <ellipse cx="140" cy="148" rx="17" ry="24" fill="#ff9fc0"/><path d="M121 166Q140 188 162 166Z" fill="#ff7fa8"/>
+ <path d="M150 140Q168 146 184 152" stroke="#e6b98a" stroke-width="8" fill="none" stroke-linecap="round"/><circle cx="185" cy="152" r="5" fill="#e6b98a"/>
+ <g class="blink-wrap"><circle cx="146" cy="106" r="21" fill="#e6b98a"/><circle cx="130" cy="89" r="9" fill="#e6b98a"/><circle cx="162" cy="89" r="9" fill="#e6b98a"/><circle cx="130" cy="89" r="4.5" fill="#ffb3c8"/><circle cx="162" cy="89" r="4.5" fill="#ffb3c8"/>
+ <ellipse cx="157" cy="114" rx="9" ry="7" fill="#fff3e6"/><ellipse cx="162" cy="111" rx="3.5" fill="#4a3340" ry="2.6"/>
+ <g class="eye"><circle cx="146" cy="104" r="2.8" fill="#4a3340"/><circle cx="160" cy="104" r="2.8" fill="#4a3340"/><circle cx="147" cy="103" r="1" fill="#fff"/><circle cx="161" cy="103" r="1" fill="#fff"/></g>
+ <path d="M154 119q5 5 10 0" stroke="#4a3340" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="139" cy="114" r="4" fill="#ff9db8" opacity=".7"/>
+ <path d="M140 86L128 78V94ZM140 86L152 78V94Z" fill="#ff4f86"/><circle cx="140" cy="86" r="3.5" fill="#ffb3c8"/></g>
+ <!-- boy -->
+ <path id="l1" fill="none" stroke="#b07a4f" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+ <ellipse id="f1" rx="8" ry="5" fill="#4a6fd6"/>
+ <ellipse cx="195" cy="150" rx="19" ry="26" fill="#5aa0f0"/><path d="M178 148H212M180 158H210" stroke="#fff" stroke-width="3" opacity=".8"/>
+ <path d="M200 138Q252 136 298 150" stroke="#b07a4f" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="299" cy="150" r="5.5" fill="#b07a4f"/>
+ <path class="scarf" style="transform-origin:186px 130px" d="M186 128Q166 130 154 124Q160 142 182 138Z" fill="#ff5d7a"/>
+ <circle cx="203" cy="106" r="22" fill="#b07a4f"/><circle cx="186" cy="88" r="9" fill="#b07a4f"/><circle cx="220" cy="88" r="9" fill="#b07a4f"/><circle cx="186" cy="88" r="4.5" fill="#8a5a36"/><circle cx="220" cy="88" r="4.5" fill="#8a5a36"/>
+ <ellipse cx="214" cy="115" rx="10" ry="7.5" fill="#f0d2b0"/><ellipse cx="219" cy="111" rx="3.8" ry="2.8" fill="#3b2a20"/>
+ <g class="eye"><circle cx="203" cy="103" r="3" fill="#2b1d16"/><circle cx="218" cy="103" r="3" fill="#2b1d16"/><circle cx="204" cy="102" r="1.1" fill="#fff"/><circle cx="219" cy="102" r="1.1" fill="#fff"/></g>
+ <path d="M211 120q6 6 12 0" stroke="#3b2a20" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="196" cy="114" r="4" fill="#ff9db8" opacity=".7"/>
+ <path d="M182 98Q204 70 226 98Z" fill="#4a90e2"/><path d="M222 96H242" stroke="#2f6fc0" stroke-width="5" stroke-linecap="round"/><circle cx="204" cy="78" r="3" fill="#fff"/>
+ <path d="M184 130Q203 140 222 128" stroke="#ff5d7a" stroke-width="7" fill="none" stroke-linecap="round"/>
+ <text class="fh" x="175" y="70" font-size="20">💕</text><text class="fh" x="190" y="70" font-size="14" style="animation-delay:1.2s">💗</text>
+</g>
+</svg>
+  <p style="font-size:20px;font-weight:700;margin-top:18px">Together, forever 💞 I love you!</p>
+  <button class="yes" id="again" style="margin-top:6px">Replay 💌</button>
+</section>
+
+<script>
+const $=id=>document.getElementById(id);
+const ink="#4a3340";
+function rabbit(m){
+  const stroke=`stroke="${ink}" stroke-width="3" fill="none" stroke-linecap="round"`;
+  let eyes="",mouth="",extra="",head="#fff",cheek="#ffb3c8";
+  if(m==="happy"){eyes=`<path d="M38 84q7-9 14 0M68 84q7-9 14 0" ${stroke}/>`;mouth=`<path d="M51 97q9 10 18 0" ${stroke}/>`}
+  if(m==="sad"){eyes=`<circle cx="45" cy="83" r="4.5" fill="${ink}"/><circle cx="75" cy="83" r="4.5" fill="${ink}"/><path d="M37 73l15 5M83 73l-15 5" ${stroke}/>`;mouth=`<path d="M52 106q8-8 16 0" ${stroke}/>`}
+  if(m==="cry"){eyes=`<path d="M38 82q7 7 14 0M68 82q7 7 14 0" ${stroke}/>`;mouth=`<ellipse cx="60" cy="104" rx="7" ry="5.5" fill="#c0566e"/>`;
+    extra=`<ellipse class="tear" cx="45" cy="90" rx="3.5" ry="6"/><ellipse class="tear b" cx="75" cy="90" rx="3.5" ry="6"/><ellipse class="tear b" cx="42" cy="90" rx="3" ry="5"/><ellipse class="tear" cx="78" cy="90" rx="3" ry="5"/>`}
+  if(m==="angry"){head="#ffd3d3";cheek="#ff6a6a";eyes=`<circle cx="45" cy="84" r="4.5" fill="${ink}"/><circle cx="75" cy="84" r="4.5" fill="${ink}"/><path d="M36 72l16 8M84 72l-16 8" ${stroke}/>`;mouth=`<path d="M51 105h18" ${stroke}/>`;
+    extra=`<circle class="steam" cx="30" cy="62" r="6"/><circle class="steam" cx="90" cy="62" r="6" style="animation-delay:.4s"/>`}
+  if(m==="plead"){eyes=`<circle cx="45" cy="83" r="8" fill="${ink}"/><circle cx="75" cy="83" r="8" fill="${ink}"/><circle cx="42" cy="80" r="3" fill="#fff"/><circle cx="72" cy="80" r="3" fill="#fff"/><circle cx="48" cy="86" r="1.6" fill="#fff"/><circle cx="78" cy="86" r="1.6" fill="#fff"/><path d="M36 70l14-3M84 70l-14-3" ${stroke}/>`;mouth=`<path d="M53 104q3-4 7 0t7 0" ${stroke}/>`}
+  const droop=(m==="sad"||m==="cry"||m==="plead")?"droop":"";
+  return `<svg viewBox="0 0 120 140" class="${droop}">
+  <g class="ear l"><ellipse cx="42" cy="38" rx="12" ry="32" fill="${head}" stroke="#e8a0b4" stroke-width="2"/><ellipse cx="42" cy="40" rx="6" ry="22" fill="#ffc8d8"/></g>
+  <g class="ear r"><ellipse cx="78" cy="38" rx="12" ry="32" fill="${head}" stroke="#e8a0b4" stroke-width="2"/><ellipse cx="78" cy="40" rx="6" ry="22" fill="#ffc8d8"/></g>
+  <ellipse cx="60" cy="88" rx="44" ry="38" fill="${head}" stroke="#e8a0b4" stroke-width="2"/>
+  <circle cx="32" cy="97" r="7" fill="${cheek}" opacity=".6"/><circle cx="88" cy="97" r="7" fill="${cheek}" opacity=".6"/>
+  <path d="M55 92l5 4 5-4z" fill="#ff8fb0"/>${eyes}${mouth}${extra}</svg>`}
+
+const steps=[
+ ["sad","I’m so sorry… I didn’t mean to hurt you 🥺"],
+ ["cry","Please don’t say no… I’ll cry 😢"],
+ ["angry","accept chey thagboth 😤"],
+ ["plead","I’ll give you ice cream and hug.. 🍦🤗"],
+ ["cry","Waaaaah 😭 I miss my girl so much…"],
+ ["plead","Pleaseee, just one tiny smile? 🥹"],
+ ["angry","Okay now I’m mad that you’re still mad… but I LOVE you! 😤💗"],
+ ["cry","I’ll be a good boy forever, I promise 😭💔"]
+];
+let n=0,noScale=1,yesScale=1;
+function reset(){n=0;noScale=1;yesScale=1;$("rYes").innerHTML=rabbit("happy");$("rNo").innerHTML=rabbit("happy");
+  $("no").style.transform="";$("yes").style.transform="";$("bubble").textContent="I’m really, truly sorry. Please forgive me, I’ll never repeat it again, Ruchii 🥹";$("no").style.display=""}
+function show(id){document.querySelectorAll(".scene").forEach(s=>s.classList.remove("on"));$(id).classList.add("on")}
+function hearts(k){for(let i=0;i<k;i++){const h=document.createElement("div");h.className="heart";h.textContent=["💖","💗","💕","🌸","🐰"][i%5];
+  h.style.left=Math.random()*95+"vw";h.style.fontSize=(18+Math.random()*26)+"px";h.style.animationDuration=(4+Math.random()*3)+"s";
+  document.body.appendChild(h);setTimeout(()=>h.remove(),7500)}}
+
+$("env").onclick=()=>{ if($("env").classList.contains("open"))return; $("env").classList.add("open");
+  setTimeout(()=>{reset();show("s2")},2200)};
+$("no").onclick=()=>{
+  const [m,t]=steps[n%steps.length];n++;
+  $("rNo").innerHTML=rabbit(m);$("bubble").textContent=t;
+  const o=$("optNo");o.classList.remove("shake");void o.offsetWidth;o.classList.add("shake");
+  noScale=Math.max(.45,noScale-.1);yesScale=Math.min(1.5,yesScale+.1);
+  $("no").style.transform=`scale(${noScale})`;$("yes").style.transform=`scale(${yesScale})`;
+  $("rYes").innerHTML=rabbit(n>2?"plead":"happy");
+};
+$("yes").onclick=()=>{show("ride");hearts(30);setInterval(()=>hearts(3),1500)};
+$("again").onclick=()=>location.reload();
+reset();
+
+(function(){
+ const N="http://www.w3.org/2000/svg";let t="",f="";
+ for(let c=0;c<2;c++){let tt="",ff="";
+  for(let i=0;i<6;i++){const x=i*80+30;tt+=`<rect x="${x-4}" y="228" width="8" height="26" fill="#8b5e3c"/><circle cx="${x}" cy="220" r="${20+(i%2)*6}" fill="${i%2?'#4fb063':'#5cc16f'}"/>`}
+  for(let i=0;i<12;i++){const x=i*40+12;ff+=`<path d="M${x} 266V258" stroke="#3a9a4a" stroke-width="2"/><circle cx="${x}" cy="256" r="4" fill="${['#ff6f9c','#fff','#ffd95e','#c58bff'][i%4]}"/>`;if(i%3==0)ff+=`<rect x="${x+8}" y="244" width="6" height="22" rx="2" fill="#fff" stroke="#e0d4c8"/>`}
+  t+=`<g transform="translate(${c*480} 0)">${tt}</g>`;f+=`<g transform="translate(${c*480} 0)">${ff}</g>`}
+ document.getElementById("trees").innerHTML=t;document.getElementById("fl").innerHTML=f;
+ const q=id=>document.getElementById(id),bx=205,by=236,hx=194,hy=184,L=37,r=20;
+ function leg(p,fo,px,py){const dx=px-hx,dy=py-hy,d=Math.min(Math.hypot(dx,dy),2*L-.5),a=d/2,h=Math.sqrt(L*L-a*a),ux=dx/Math.hypot(dx,dy),uy=dy/Math.hypot(dx,dy),kx=hx+ux*a+uy*h,ky=hy+uy*a-ux*h;
+  q(p).setAttribute("d",`M${hx} ${hy}L${kx.toFixed(1)} ${ky.toFixed(1)}L${px.toFixed(1)} ${py.toFixed(1)}`);q(fo).setAttribute("cx",px+3);q(fo).setAttribute("cy",py+3)}
+ function loop(ts){const a=ts*0.006;q("crank").setAttribute("transform",`translate(${bx} ${by}) rotate(${a*57.3})`);
+  leg("l1","f1",bx+r*Math.cos(a),by+r*Math.sin(a));leg("l2","f2",bx-r*Math.cos(a),by-r*Math.sin(a));requestAnimationFrame(loop)}
+ requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
